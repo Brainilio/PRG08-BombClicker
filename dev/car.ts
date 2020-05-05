@@ -14,9 +14,9 @@ class Car extends gameObject {
  
         // If position X is smaller than the window's right offset, make x increment
         if(this.posx < window.innerWidth) { 
-            this.posx += this.speedx;
+            this.posx += this.speedx + 2;
             } else { 
-        // If position X hits offset of right screen, set x-position on random
+            // If position X hits offset of right screen, set x-position on random
                 this.posx = setTimeout(function() {Math.floor(Math.random() * window.innerWidth);}, 8000);
             }
 

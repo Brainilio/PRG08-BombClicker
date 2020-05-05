@@ -19,7 +19,7 @@ class Bomb extends gameObject {
     }
     moveBomb() {
         if (this.posy < window.innerHeight) {
-            this.posy += this.speedy;
+            this.posy++;
         }
         else {
             this.posy = 0;
@@ -47,7 +47,7 @@ class Car extends gameObject {
     }
     update() {
         if (this.posx < window.innerWidth) {
-            this.posx += this.speedx;
+            this.posx += this.speedx + 2;
         }
         else {
             this.posx = setTimeout(function () { Math.floor(Math.random() * window.innerWidth); }, 8000);
