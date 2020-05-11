@@ -47,6 +47,8 @@ class Game {
     private gameLoop(): void {
         this.car.update();
 
+        // Update the buildingposition 
+
         // Call update for each bomb
         for (let i = 0; i < this.bombs.length; i++) {
 
@@ -97,6 +99,7 @@ class Game {
     }
 
     private emptyScreen() {
+
         // Check if game is over
         if (this.scoreBool == true) {
             console.log("Game is officially over.");
@@ -104,13 +107,20 @@ class Game {
             // Empty out the elements 
             this.bombs = [];
             this.textfield.innerHTML = 'Score: 0';
+          
+            // Set records on 0 
             this.destroyed = 0;
             this.score = 0;
-            this.backPos = 0;
+            
+
         }
 
         this.car.addEventListener('click', () => {
             // Upon starting the car, clear the foreground and start a new game.
+
+            this.backPos = 0;
+
+            // Restart new game
             console.log("Restarting game...");
             this.foreground.innerHTML = ''
             new Game();

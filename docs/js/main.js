@@ -117,9 +117,9 @@ class Game {
             this.textfield.innerHTML = 'Score: 0';
             this.destroyed = 0;
             this.score = 0;
-            this.backPos = 0;
         }
         this.car.addEventListener('click', () => {
+            this.backPos = 0;
             console.log("Restarting game...");
             this.foreground.innerHTML = '';
             new Game();
