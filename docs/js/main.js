@@ -101,9 +101,9 @@ class Game {
         this.destroyed++;
         this.backPos -= 72;
         if (this.destroyed == 4) {
+            this.score = 0;
             this.scoreBool = true;
             this.emptyScreen();
-            this.score = 0;
         }
         this.statusbar.style.backgroundPositionX = `${this.backPos}px`;
         console.log("buildings destroyed " + this.destroyed);

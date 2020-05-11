@@ -38,7 +38,7 @@ class Game {
                 this.scorePoint();
             })
         }
-
+        
         console.log("Game starting..");
 
         // call method gameLoop
@@ -51,7 +51,6 @@ class Game {
 
         // Call update for each bomb
         for (let i = 0; i < this.bombs.length; i++) {
-
             // Set bombPosition in variable using the returnYPosition method
             let bombPosition = this.bombs[i].returnYPosition();
 
@@ -61,7 +60,6 @@ class Game {
                 //  Add +1 to destroyed building score.
                 this.destroyBuilding();
             }
-
             this.bombs[i].update();
         }
 
@@ -79,9 +77,9 @@ class Game {
 
         if (this.destroyed == 4) {
             // Check if this.destroyed counter is on 4, if it is then set boolean on true
+            this.score = 0; 
             this.scoreBool = true; 
             this.emptyScreen();
-            this.score = 0; 
         }
 
         // When building gets destroyed change background 
@@ -97,16 +95,13 @@ class Game {
 
     private emptyScreen() {
 
-        // Check if game is over
+        // Double Check if game is over
         if (this.scoreBool) {
             console.log("Game is officially over.");
             this.backPos = 0;  
-
         }
 
         this.car.addEventListener('click', () => {
-            // Upon starting the car, clear the foreground and start a new game.
-
             // Restart new game
             console.log("Restarting game...");
             this.foreground.innerHTML = ''
