@@ -16,13 +16,14 @@ class Bomb extends gameObject {
     update() {
         this.moveBomb();
         this.drop();
+        this.returnYPosition();
     }
     moveBomb() {
         if (this.posy < window.innerHeight) {
             this.posy++;
         }
         else {
-            this.posy = 0;
+            this.posy = -300;
             this.posx = Math.floor(Math.random() * window.innerWidth);
         }
     }
@@ -65,14 +66,15 @@ class Game {
         this.destroyed = 0;
         this.backPos = 0;
         this.scoreBool = false;
+        this.BOMBS = 5;
         this.textfield = document.getElementsByTagName("textfield")[0];
         this.statusbar = document.getElementsByTagName("bar")[0];
         this.foreground = document.getElementsByTagName('foreground')[0];
         this.bombs = new Array();
-        for (let i = 0; i < 5; i++) {
-            this.bombs.push(new Bomb(0, Math.floor(Math.random() * window.innerWidth), Math.random() * 5));
+        for (let i = 0; i < this.BOMBS; i++) {
+            this.bombs.push(new Bomb(0, Math.floor(Math.random() * window.innerWidth), 1 + Math.random() * 5));
         }
-        this.car = new Car(0, window.innerHeight - 95, 5);
+        this.car = new Car(0, window.innerHeight - 120, 5);
         for (let i = 0; i < this.bombs.length; i++) {
             this.bombs[i].addEventListener('click', () => {
                 this.bombs[i].clicked();
@@ -91,17 +93,17 @@ class Game {
             }
             this.bombs[i].update();
         }
-        if (this.destroyed == 4) {
-            this.scoreBool = true;
-            this.emptyScreen();
+        if (!this.scoreBool) {
+            requestAnimationFrame(() => this.gameLoop());
         }
-        requestAnimationFrame(() => this.gameLoop());
     }
     destroyBuilding() {
         this.destroyed++;
         this.backPos -= 72;
-        if (this.backPos == -288) {
+        if (this.destroyed == 4) {
+            this.scoreBool = true;
             this.emptyScreen();
+            this.score = 0;
         }
         this.statusbar.style.backgroundPositionX = `${this.backPos}px`;
         console.log("buildings destroyed " + this.destroyed);
@@ -111,15 +113,11 @@ class Game {
         this.textfield.innerHTML = "Score: " + this.score;
     }
     emptyScreen() {
-        if (this.scoreBool == true) {
+        if (this.scoreBool) {
             console.log("Game is officially over.");
-            this.bombs = [];
-            this.textfield.innerHTML = 'Score: 0';
-            this.destroyed = 0;
-            this.score = 0;
+            this.backPos = 0;
         }
         this.car.addEventListener('click', () => {
-            this.backPos = 0;
             console.log("Restarting game...");
             this.foreground.innerHTML = '';
             new Game();

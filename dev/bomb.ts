@@ -22,17 +22,21 @@ class Bomb extends gameObject {
 
         // Push the y and x position into styling with drop function
         this.drop();
+
+
+        // Keep tracking the Y position
+        this.returnYPosition();
     }
 
     private moveBomb() {
         // If position Y is smaller than the bottom offset of the window, let the y position iterate so it drops.
         if (this.posy < window.innerHeight) {
             // When i add the speed, the game wont recognize when the bomb hits the bottom y offset
-            // this.posy+=speedy
+            // this.posy+=this.speedy;
             this.posy++;
         } else {
             // If Y position hits bottom of screen, set y position back at 0 and randomize X-position
-            this.posy = 0;
+            this.posy = -300;
             this.posx = Math.floor(Math.random() * window.innerWidth);
         }
     }

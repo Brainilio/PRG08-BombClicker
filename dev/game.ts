@@ -9,6 +9,8 @@ class Game {
     private scoreBool: boolean = false;
     private bombs: Array<Bomb>
     private car: Car
+    // Constant for amount of bombs
+    private readonly BOMBS: number = 5; 
 
     constructor() {
         this.textfield = document.getElementsByTagName("textfield")[0] as HTMLElement
@@ -18,14 +20,14 @@ class Game {
         // New array out of bombs
         this.bombs = new Array();
 
-        // push 5 bombs into new array
-        for (let i = 0; i < 5; i++) {
+        // push 5 bombs into new array with constant readonly BOMBS
+        for (let i = 0; i < this.BOMBS; i++) {
             // Bomb(position x, posistion y, speed y)
-            this.bombs.push(new Bomb(0, Math.floor(Math.random() * window.innerWidth), Math.random() * 5))
+            this.bombs.push(new Bomb(0, Math.floor(Math.random() * window.innerWidth), 1 + Math.random() * 5))
         }
 
         // Car(position x, position y, speed x)
-        this.car = new Car(0, window.innerHeight - 95, 5)
+        this.car = new Car(0, window.innerHeight - 120, 5)
 
         // Handlers for each bomb
         for (let i = 0; i < this.bombs.length; i++) {
@@ -47,8 +49,6 @@ class Game {
     private gameLoop(): void {
         this.car.update();
 
-        // Update the buildingposition 
-
         // Call update for each bomb
         for (let i = 0; i < this.bombs.length; i++) {
 
@@ -65,15 +65,10 @@ class Game {
             this.bombs[i].update();
         }
 
-        // Check if destroyedbuildings is on 4 
-        if (this.destroyed == 4) {
-            // If buildings destroyed equals 5, call emptyscreen method 
-            this.scoreBool = true;
-            this.emptyScreen();
-        }
-
         // add request animation frame
+        if(!this.scoreBool) { 
         requestAnimationFrame(() => this.gameLoop())
+        }
     }
 
     public destroyBuilding() {
@@ -82,9 +77,11 @@ class Game {
         // Decrease position from background to display destroyed buildings.
         this.backPos -= 72;
 
-        if (this.backPos == -288) {
-            // To avoid background image from getting ugly, set the emptyscreen method when 4 buildings already destroyed
+        if (this.destroyed == 4) {
+            // Check if this.destroyed counter is on 4, if it is then set boolean on true
+            this.scoreBool = true; 
             this.emptyScreen();
+            this.score = 0; 
         }
 
         // When building gets destroyed change background 
@@ -101,24 +98,14 @@ class Game {
     private emptyScreen() {
 
         // Check if game is over
-        if (this.scoreBool == true) {
+        if (this.scoreBool) {
             console.log("Game is officially over.");
-
-            // Empty out the elements 
-            this.bombs = [];
-            this.textfield.innerHTML = 'Score: 0';
-          
-            // Set records on 0 
-            this.destroyed = 0;
-            this.score = 0;
-            
+            this.backPos = 0;  
 
         }
 
         this.car.addEventListener('click', () => {
             // Upon starting the car, clear the foreground and start a new game.
-
-            this.backPos = 0;
 
             // Restart new game
             console.log("Restarting game...");
